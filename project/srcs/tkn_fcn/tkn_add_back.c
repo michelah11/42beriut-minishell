@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tkn_len.c                                          :+:      :+:    :+:   */
+/*   tkn_add_back.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabou-ha <mabou-ha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/27 08:41:23 by mabou-ha          #+#    #+#             */
-/*   Updated: 2024/09/27 17:26:18 by mabou-ha         ###   ########.fr       */
+/*   Created: 2024/09/27 17:24:06 by mabou-ha          #+#    #+#             */
+/*   Updated: 2024/09/27 17:33:16 by mabou-ha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	tkn_len(t_token *token)
+void	tkn_add_back(t_token **tokens, t_token *token)
 {
-	size_t	len;
+	t_token	*temp;
 
-	len = 0;
-	while (token)
+	temp = *tokens;
+	if (!temp)
+		(*tokens) = token;
+	else
 	{
-		len++;
-		token->next;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = token;
 	}
-	return (len);
 }

@@ -6,19 +6,19 @@
 /*   By: mabou-ha <mabou-ha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 08:31:00 by mabou-ha          #+#    #+#             */
-/*   Updated: 2024/09/27 08:40:55 by mabou-ha         ###   ########.fr       */
+/*   Updated: 2024/09/27 17:27:21 by mabou-ha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	tkn_delete(t_parser *parser, char *token_to_find)
+void	tkn_delete(t_token *token, char *token_to_find)
 {
 	t_token	*temp;
 	t_token	*last;
 	size_t	size;
 
-	temp = parser->tokens;
+	temp = token;
 	last = NULL;
 	size = ft_strlen(token_to_find);
 	while (temp)
@@ -26,7 +26,7 @@ void	tkn_delete(t_parser *parser, char *token_to_find)
 		if (!ft_strncmp(temp->token, token_to_find, size))
 		{
 			if (!last)
-				parser->tokens = temp->next;
+				token = temp->next;
 			else
 				last->next = temp->next;
 			free(temp->token);
