@@ -1,0 +1,158 @@
+1. Input/Output and File Handling Functions (Detailed)
+
+a. readline()
+- Description: Reads a line from the input stream, providing advanced line editing features, including history management. It includes features such as editing, word completion, and more.
+- Library: GNU Readline Library (readline/readline.h)
+- Usage: Often used in interactive command-line programs (e.g., shell applications).
+- Example:
+    char* line = readline("Enter input: ");
+
+b. add_history()
+- Description: Adds the current line of input to the history list, allowing it to be recalled later using up/down arrow keys.
+- Library: GNU Readline Library (readline/history.h)
+- Usage: Useful in applications where user input history is tracked and retrievable.
+- Example:
+    add_history(line);
+
+c. printf()
+- Description: Prints formatted data to stdout. It supports a wide range of format specifiers such as %d for integers, %s for strings, etc.
+- Library: Standard I/O Library (stdio.h)
+- Usage: Common in almost every C program for displaying information.
+- Example:
+    printf("Number: %d\n", 42);
+
+d. malloc()
+- Description: Allocates a block of memory dynamically. It returns a pointer to the beginning of the block.
+- Library: Standard Library (stdlib.h)
+- Usage: Used for dynamic memory allocation, typically when the size of data is not known at compile time.
+- Example:
+    int* ptr = malloc(10 * sizeof(int));  // Allocates memory for 10 integers
+
+e. free()
+- Description: Frees memory that was previously allocated with malloc() or related functions. Failure to free memory can lead to memory leaks.
+- Library: Standard Library (stdlib.h)
+- Usage: Always used to free memory when it is no longer needed to avoid memory leaks.
+- Example:
+    free(ptr);
+
+f. write()
+- Description: Writes up to count bytes from the buffer to the file referred to by the file descriptor fd.
+- Library: POSIX (unistd.h)
+- Usage: Often used for low-level file I/O operations, bypassing buffering.
+- Example:
+    write(fd, "Hello, World", 12);
+
+g. access()
+- Description: Checks the accessibility of a file for the calling process (e.g., read, write, or execute permissions).
+- Library: POSIX (unistd.h)
+- Usage: Verifies whether the current user has permission to access the file.
+- Example:
+    if (access("file.txt", R_OK) == 0) {
+        printf("File is readable\n");
+    }
+
+h. open(), read(), close()
+- Description:
+    - open(): Opens a file and returns a file descriptor.
+    - read(): Reads from a file descriptor.
+    - close(): Closes the file descriptor.
+- Library: POSIX (fcntl.h, unistd.h)
+- Usage:
+    - open(): To open a file for reading, writing, or both.
+    - read(): To read from an open file descriptor into a buffer.
+    - close(): To close the file descriptor once I/O is complete.
+- Example:
+    int fd = open("file.txt", O_RDONLY);
+    char buffer[100];
+    read(fd, buffer, 100);
+    close(fd);
+
+2. Process Management Functions (Detailed)
+
+a. fork()
+- Description: Creates a new child process. The new process is a copy of the parent process except for the returned value.
+- Library: POSIX (unistd.h)
+- Usage: The return value differs: 0 for the child process, and the child's process ID for the parent.
+- Example:
+    pid_t pid = fork();
+    if (pid == 0) {
+        printf("This is the child process.\n");
+    } else {
+        printf("This is the parent process.\n");
+    }
+
+b. wait(), waitpid()
+- Description:
+    - wait(): Waits for any child process to terminate.
+    - waitpid(): Waits for a specific child process to terminate.
+- Library: POSIX (sys/wait.h)
+- Usage:
+    - wait() blocks until one of the child processes ends.
+    - waitpid() can be used to wait for a specific child.
+- Example:
+    pid_t pid = fork();
+    if (pid > 0) {
+        wait(NULL); // Parent waits for child
+    }
+
+c. execve()
+- Description: Replaces the current process image with a new one, specified by a path to an executable file. It does not return on success.
+- Library: POSIX (unistd.h)
+- Usage: Common in shell implementations or when launching new programs.
+- Example:
+    char *args[] = {"/bin/ls", "-l", NULL};
+    execve(args[0], args, NULL);
+
+d. exit()
+- Description: Terminates the calling process and returns an exit status to the operating system.
+- Library: Standard Library (stdlib.h)
+- Usage: Used to end a program and indicate success or failure via the exit status.
+- Example:
+    exit(0);
+
+e. kill()
+- Description: Sends a signal (such as SIGKILL, SIGTERM, etc.) to a process, usually to terminate it.
+- Library: POSIX (signal.h)
+- Usage: Used to control or terminate other processes programmatically.
+- Example:
+    kill(pid, SIGKILL);
+
+3. Signals and Signal Handling Functions (Detailed)
+
+a. signal()
+- Description: Installs a new signal handler for a given signal.
+- Library: POSIX (signal.h)
+- Usage: Used to define how signals like SIGINT (Ctrl+C) are handled in a program.
+- Example:
+    void handler(int signum) {
+        printf("Caught signal %d\n", signum);
+    }
+    signal(SIGINT, handler);
+
+b. sigaction(), sigemptyset(), sigaddset()
+- Description:
+    - sigaction(): Modifies signal behavior for a specific signal.
+    - sigemptyset(): Initializes an empty signal set.
+    - sigaddset(): Adds a specific signal to a signal set.
+- Library: POSIX (signal.h)
+- Usage: These functions allow advanced signal management.
+- Example:
+    struct sigaction sa;
+    sa.sa_handler = handler;
+    sigaction(SIGINT, &sa, NULL);
+
+4. Error Handling Functions (Detailed)
+
+a. strerror()
+- Description: Returns a string that describes the error code passed as an argument.
+- Library: Standard Library (string.h)
+- Usage: Converts error codes like errno into human-readable strings.
+- Example:
+    printf("Error: %s\n", strerror(errno));
+
+b. perror()
+- Description: Prints an error message to stderr describing the last error that occurred.
+- Library: Standard Library (stdio.h)
+- Usage: Provides an easy way to report errors by outputting a string and the corresponding error message.
+- Example:
+    perror("Error opening file");
